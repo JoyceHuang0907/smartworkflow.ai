@@ -1,0 +1,3362 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI+自動化導入陪跑計畫 - Smart4A</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', '微軟正黑體', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* 開場區塊 */
+        .hero-section {
+            background: linear-gradient(135deg, #2d1b69 0%, #5a3d9a 100%);
+            color: white;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+        }
+        
+        .hero-title {
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-title .main-line {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero-title .sub-line {
+            font-size: 2.4rem;
+            display: block;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        /* 成功案例區塊 - 修复后的版本 */
+        .cases-section {
+            padding: 5rem 2rem;
+            background: #f8f9fa;
+        }
+        
+        .cases-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .cases-main-title {
+            font-size: 2.5rem;
+            color: #2d1b69;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .cases-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .case-stories {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .cases-top-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .cases-bottom-row {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+        
+        .case-block {
+            border-radius: 25px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            min-height: 400px;
+        }
+        
+        .case-block:hover {
+            transform: translateY(-5px);
+        }
+        
+        .case-block-1 {
+            background: linear-gradient(135deg, #e8f2ff 0%, #d6e9ff 100%);
+            color: #2c5aa0;
+        }
+        
+        .case-block-2 {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            color: #c2410c;
+        }
+        
+        .case-block-3 {
+            background: linear-gradient(135deg, #f0fffe 0%, #e6fbf8 100%);
+            color: #0f766e;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            min-height: 350px;
+        }
+        
+        .case-category {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+        
+        .case-block h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+        
+        .case-block p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        .case-achievement {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .achievement-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .achievement-text {
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #333;
+        }
+        
+        .case-image {
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 1.5rem;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .case-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .case-block-3 .case-image {
+            margin-top: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .case-block-3 .case-image img {
+            max-height: 350px;
+            object-fit: contain;
+            width: 100%;
+        }
+        
+        .cta-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .cta-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cta-button {
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+        
+        .cta-note {
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            opacity: 0.8;
+        }
+        
+        /* 痛點區塊 */
+        .pain-section {
+            padding: 5rem 2rem;
+            background: #f8f9fa;
+        }
+        
+        .pain-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .pain-main-title {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .pain-shock-title {
+            font-size: 3rem;
+            color: #dc3545;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        
+        .pain-reasons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .pain-reason {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .pain-reason:hover {
+            transform: translateY(-5px);
+        }
+        
+        .reason-number {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .reason-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 1rem;
+        }
+        
+        .reason-description {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .pain-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .solution-intro {
+            background: #5a3d9a;
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        
+        /* 成功關鍵區塊 */
+        .success-keys-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .success-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2d1b69;
+            margin-bottom: 3rem;
+            font-weight: bold;
+        }
+        
+        .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .key-point {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-left: 5px solid #5a3d9a;
+        }
+        
+        .key-point h3 {
+            font-size: 1.3rem;
+            color: #2d1b69;
+            margin-bottom: 1rem;
+        }
+        
+        .key-point p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        /* 最終方案：純文字 + 慢速光澤掃過動畫 */
+        .solution-highlight-final {
+            background: transparent;
+            color: #2d1b69;
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .solution-highlight-final strong {
+            background: linear-gradient(
+                90deg,
+                #2d1b69,
+                #2d1b69,
+                #8e7cc3,
+                #2d1b69,
+                #2d1b69
+            );
+            background-size: 200% 100%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 6s ease-in-out infinite;
+        }
+        
+        @keyframes textShimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            50% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        /* 權威建立區塊 */
+        .authority-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .authority-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1;
+        }
+        
+        .authority-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: start;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .authority-left {
+            position: sticky;
+            top: 2rem;
+        }
+        
+        .authority-title {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #2d1b69, #5a3d9a, #ff6b35);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .authority-subtitle {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .authority-stats {
+            display: flex;
+            gap: 1.5rem;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .stats-row {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .mini-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 120px;
+            height: 120px;
+            box-sizing: border-box;
+        }
+        
+        .mini-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d1b69;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.05rem;
+        }
+        
+        .mini-number-unit {
+            font-size: 0.6rem;
+            font-weight: normal;
+            opacity: 0.8;
+        }
+        
+        .mini-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        .partner-logo {
+            margin-top: 1rem;
+            text-align: center;
+            width: 255px;
+        }
+        
+        .partner-logo img {
+            max-width: 120px;
+            height: auto;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+        
+        .partner-logo img:hover {
+            transform: scale(1.05);
+        }
+        
+        .authority-right {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .team-intro {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid #5a3d9a;
+        }
+        
+        .team-intro p {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .team-intro p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .expertise-item {
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #2d1b69 0%, #5a3d9a 100%);
+            border-radius: 10px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .expertise-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .expertise-label {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        
+        .expertise-desc {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        /* 企業 AI 自動化導入陪跑計畫區塊 */
+        .coaching-program-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .program-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .program-main-title {
+            font-size: 2.5rem;
+            color: #2d1b69;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .program-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 時間軸容器 */
+        .timeline-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+        
+        .timeline-month {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+        
+        .month-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .month-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* 月份圖標 */
+        .month-icon {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .month-1 .month-icon {
+            background: linear-gradient(135deg, #2c5aa0, #4a7bc8);
+        }
+        
+        .month-2 .month-icon {
+            background: linear-gradient(135deg, #c2410c, #ea580c);
+        }
+        
+        .month-3 .month-icon {
+            background: linear-gradient(135deg, #0f766e, #0d9488);
+        }
+        
+        .icon-content {
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        /* 月份標題 */
+        .month-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 2rem 0 0.5rem;
+            text-align: center;
+        }
+        
+        .month-1 .month-title {
+            color: #2c5aa0;
+        }
+        
+        .month-2 .month-title {
+            color: #c2410c;
+        }
+        
+        .month-3 .month-title {
+            color: #0f766e;
+        }
+        
+        .month-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+        
+        .month-description {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            text-align: center;
+            padding: 0 1rem;
+        }
+        
+        /* 詳細內容區塊 */
+        .details-section {
+            margin-bottom: 2rem;
+        }
+        
+        .details-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .details-icon {
+            font-size: 1.2rem;
+        }
+        
+        .details-title {
+            font-size: 1.1rem;
+        }
+        
+        .week-list {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+        
+        .week-item {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: white;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .week-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .week-item strong {
+            color: #2d1b69;
+        }
+        
+        /* 交付成果區塊 */
+        .deliverables {
+            background: linear-gradient(135deg, #e8f2ff 0%, #d6e9ff 100%);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 4px solid #2c5aa0;
+        }
+        
+        .month-2 .deliverables {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border-left-color: #c2410c;
+        }
+        
+        .month-3 .deliverables {
+            background: linear-gradient(135deg, #f0fffe 0%, #e6fbf8 100%);
+            border-left-color: #0f766e;
+        }
+        
+        .final-deliverables {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left-color: #d97706;
+        }
+        
+        .deliverables-title {
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .deliverables-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        /* 連接線 */
+        .timeline-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 60px;
+            margin: 1rem 0;
+        }
+        
+        .connector-line {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(180deg, #2d1b69, #5a3d9a);
+            opacity: 0.3;
+        }
+        
+        .connector-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #5a3d9a;
+            margin-top: 8px;
+            opacity: 0.6;
+        }
+        
+        /* 完整價值區塊 - 修改為滿螢幕淺紫色背景 */
+        .complete-value-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #f3f0f7 0%, #ede9f2 100%);
+            position: relative;
+            overflow: hidden;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+        }
+        
+        .complete-value-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+        
+        .complete-value-section .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .value-section {
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            margin-bottom: 0;
+            box-shadow: none;
+        }
+        
+        .value-main-title {
+            font-size: 2.5rem;
+            color: #2d1b69;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+        
+        .value-main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b35, #2d1b69);
+            border-radius: 2px;
+        }
+        
+        .value-categories {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+        
+        .value-category {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 35px rgba(45, 27, 105, 0.15);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            backdrop-filter: blur(10px);
+        }
+        
+        .value-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            border-radius: 20px 20px 0 0;
+            transition: all 0.3s ease;
+        }
+        
+        .category-core::before {
+            background: linear-gradient(90deg, #2c5aa0, #4a7bc8);
+        }
+        
+        .category-tools::before {
+            background: linear-gradient(90deg, #c2410c, #ea580c);
+        }
+        
+        .category-growth::before {
+            background: linear-gradient(90deg, #0f766e, #0d9488);
+        }
+        
+        .value-category:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(45, 27, 105, 0.2);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        .category-core:hover {
+            border-color: #2c5aa0;
+        }
+        
+        .category-tools:hover {
+            border-color: #c2410c;
+        }
+        
+        .category-growth:hover {
+            border-color: #0f766e;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(45, 27, 105, 0.1);
+        }
+        
+        .category-icon {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 0.8rem;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .value-category:hover .category-icon {
+            transform: rotate(5deg) scale(1.05);
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+            color: #2d1b69;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .value-items {
+            display: grid;
+            gap: 0.3rem;
+        }
+        
+        .value-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.4rem 0.8rem;
+            background: transparent;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .category-core .value-item {
+            border-left-color: #2c5aa0;
+        }
+        
+        .category-tools .value-item {
+            border-left-color: #c2410c;
+        }
+        
+        .category-growth .value-item {
+            border-left-color: #0f766e;
+        }
+        
+        .value-item:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+        }
+        
+        .item-check {
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        
+        .item-text {
+            font-size: 0.85rem;
+            color: #333;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        
+        /* ROI 效益區塊 */
+        .roi-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(45, 27, 105, 0.15);
+            backdrop-filter: blur(10px);
+        }
+        
+        .roi-title {
+            font-size: 1.5rem;
+            color: #2d1b69;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+        
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .roi-item {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+        
+        .roi-item:hover {
+            transform: translateY(-3px);
+        }
+        
+        .roi-investment {
+            background: linear-gradient(135deg, #e8f2ff 0%, #d6e9ff 100%);
+            color: #2c5aa0;
+        }
+        
+        .roi-savings {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            color: #c2410c;
+        }
+        
+        .roi-total {
+            background: linear-gradient(135deg, #f0fffe 0%, #e6fbf8 100%);
+            color: #0f766e;
+        }
+        
+        .roi-label {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+        
+        .roi-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        /* 最終行動呼籲 */
+        .final-cta-section {
+            background: linear-gradient(135deg, #2d1b69 0%, #5a3d9a 100%);
+            padding: 4rem 2rem;
+            color: white;
+            text-align: center;
+        }
+        
+        .final-cta-text {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .final-cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .final-cta-button {
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .final-cta-button:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+        
+        .final-cta-note {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* 投資回報分析區塊 */
+        .roi-analysis-section {
+            padding: 5rem 2rem;
+            background: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .roi-analysis-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://ap11.ragic.com/sims/file.jsp?a=joycehuang&f=X56q7wg134%40%E5%90%91%E4%B8%8A%E7%AE%AD%E9%A0%AD.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.12;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .roi-analysis-section .container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .roi-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .roi-main-title {
+            font-size: 2.5rem;
+            color: #2d1b69;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .roi-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        /* 顯目收益展示 */
+        .roi-highlights {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .roi-highlight-card {
+            border-radius: 20px;
+            padding: 2.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .roi-highlight-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .investment-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+            position: relative;
+        }
+        
+        .investment-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .benefits-card {
+            background: linear-gradient(135deg, #7fb3d3 0%, #5dade2 100%);
+            position: relative;
+        }
+        
+        .benefits-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .card-icon-img {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .card-icon-img img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        
+        .card-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .card-subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+        
+        .benefits-breakdown {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .benefit-item {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .benefit-number {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .total-number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #ff6b35;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .benefit-label,
+        .total-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .total-benefits {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .total-amount {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .total-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        /* ROI 關鍵指標 */
+        .roi-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d1b69;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .metric-detail {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        /* 詳細效益分析 */
+        .detailed-analysis {
+            margin-bottom: 4rem;
+        }
+        
+        .analysis-title {
+            font-size: 1.8rem;
+            color: #2d1b69;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+        
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .analysis-item {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .analysis-item:hover {
+            transform: translateY(-3px);
+        }
+        
+        .analysis-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .analysis-content h4 {
+            font-size: 1.2rem;
+            color: #2d1b69;
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .analysis-desc {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .calculation {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #2d1b69;
+        }
+        
+        .calc-line {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+        
+        .calc-result {
+            font-size: 1rem;
+            color: #2d1b69;
+            font-weight: bold;
+        }
+        
+        /* 企業規模比較表 */
+        .enterprise-comparison {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-title {
+            font-size: 1.8rem;
+            color: #2d1b69;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+        
+        .comparison-table {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .table-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.2fr 1fr 1.2fr 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #2d1b69, #5a3d9a);
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .header-cell {
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.2fr 1fr 1.2fr 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            align-items: center;
+        }
+        
+        .table-row:hover {
+            transform: translateX(5px);
+        }
+        
+        .small-enterprise {
+            background: linear-gradient(135deg, #e8f2ff, #d6e9ff);
+            border-left: 4px solid #2c5aa0;
+        }
+        
+        .medium-enterprise {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border-left: 4px solid #c2410c;
+        }
+        
+        .large-enterprise {
+            background: linear-gradient(135deg, #f0fffe, #e6fbf8);
+            border-left: 4px solid #0f766e;
+        }
+        
+        .table-cell {
+            text-align: center;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .scale-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: left;
+        }
+        
+        .scale-icon {
+            font-size: 1.5rem;
+        }
+        
+        .scale-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .amount {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .total-amount {
+            font-weight: bold;
+            color: #2d1b69;
+            font-size: 1rem;
+        }
+        
+        .period {
+            font-weight: bold;
+            color: #0f766e;
+        }
+        
+        /* ROI 百分比特殊樣式 */
+        .roi-percentage {
+            color: #ff6b35 !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        /* 投資方案選擇區塊 */
+        .pricing-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #5a3d9a 0%, #2d1b69 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .pricing-main-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .pricing-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .pricing-plans {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .pricing-plan {
+            background: white;
+            border-radius: 25px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+        
+        .premium-plan {
+            transform: scale(1.05);
+            z-index: 2;
+        }
+        
+        .premium-plan:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 推薦標籤 */
+        .recommended-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff6b35, #e55a2b);
+            color: white;
+            padding: 0.6rem 2rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+            z-index: 2;
+        }
+        
+        /* 圖標區域 */
+        .plan-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+        
+        @keyframes floatIcon {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+        
+        .plan-title {
+            font-size: 1.4rem;
+            color: #2d1b69;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .plan-focus {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        
+        .premium-plan .plan-focus {
+            background: #fff4ed;
+            color: #c2410c;
+        }
+        
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .basic-plan .plan-price {
+            color: #2c5aa0;
+        }
+        
+        .premium-plan .plan-price {
+            color: #ff6b35;
+        }
+        
+        .enterprise-plan .plan-price {
+            color: #5a3d9a;
+        }
+        
+        .plan-features {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 0;
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .feature-check {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.8rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .basic-plan .feature-check {
+            background: linear-gradient(135deg, #4a7bc8, #2c5aa0);
+        }
+        
+        .premium-plan .feature-check {
+            background: linear-gradient(135deg, #ff6b35, #e55a2b);
+        }
+        
+        .enterprise-plan .feature-check {
+            background: linear-gradient(135deg, #8e7cc3, #5a3d9a);
+        }
+        
+        .plan-cta {
+            text-align: center;
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 80%;
+        }
+        
+        .basic-btn {
+            background: linear-gradient(135deg, #4a7bc8, #2c5aa0);
+        }
+        
+        .basic-btn:hover {
+            background: linear-gradient(135deg, #2c5aa0, #1e4080);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 90, 160, 0.4);
+        }
+        
+        .premium-btn {
+            background: linear-gradient(135deg, #ff6b35, #e55a2b);
+        }
+        
+        .premium-btn:hover {
+            background: linear-gradient(135deg, #e55a2b, #cc4f24);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+        
+        .enterprise-btn {
+            background: linear-gradient(135deg, #8e7cc3, #5a3d9a);
+        }
+        
+        .enterprise-btn:hover {
+            background: linear-gradient(135deg, #5a3d9a, #4a2d82);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(142, 124, 195, 0.4);
+        }
+        
+        /* 客戶推薦區塊 */
+        .testimonials-section {
+            padding: 5rem 2rem;
+            background: white;
+        }
+        
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .testimonials-main-title {
+            font-size: 2.5rem;
+            color: #2d1b69;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .testimonials-slider {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .testimonials-container {
+            flex: 1;
+            overflow: hidden;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-slide {
+            display: none;
+            padding: 3rem;
+            text-align: center;
+            min-height: 250px;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .testimonial-slide.active {
+            display: flex;
+        }
+        
+        .testimonial-content {
+            max-width: 800px;
+        }
+        
+        .testimonial-text {
+            margin-bottom: 2rem;
+        }
+        
+        .testimonial-text p {
+            font-size: 1.3rem;
+            color: #333;
+            line-height: 1.8;
+            margin: 0;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            font-size: 1.1rem;
+            color: #2d1b69;
+        }
+        
+        .slider-btn {
+            background: linear-gradient(135deg, #2d1b69, #5a3d9a);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(45, 27, 105, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slider-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(45, 27, 105, 0.4);
+        }
+        
+        .slider-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: #2d1b69;
+            transform: scale(1.2);
+        }
+        
+        .dot:hover {
+            background: #5a3d9a;
+        }
+        
+        /* FAQ 常見問題區塊 */
+        .faq-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .faq-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .faq-main-title {
+            font-size: 2.5rem;
+            color: #2d1b69;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .faq-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1e1b3a 0%, #2d1b69 25%, #4c1d95 50%, #2d1b69 75%, #1e1b3a 100%);
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 100px rgba(139, 92, 246, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .faq-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+                        linear-gradient(45deg, transparent 30%, rgba(99, 102, 241, 0.06) 50%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .faq-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+        
+        .faq-questions {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .faq-image {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 2rem;
+        }
+        
+        .faq-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .faq-item {
+            background: transparent;
+            border-radius: 0;
+            margin-bottom: 0;
+            box-shadow: none;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        
+        .faq-item:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .faq-question {
+            padding: 2rem 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: transparent;
+        }
+        
+        .faq-question h3 {
+            font-size: 1.3rem;
+            color: white;
+            margin: 0;
+            line-height: 1.5;
+            font-weight: 600;
+            flex: 1;
+            padding-right: 1rem;
+        }
+        
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 1.5rem;
+            max-height: 200px;
+        }
+        
+        .faq-answer p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin: 0;
+        }
+        
+        .faq-answer strong {
+            color: white;
+            font-weight: 600;
+        }
+        
+        .faq-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title .main-line {
+                font-size: 2.8rem;
+            }
+            
+            .hero-title .sub-line {
+                font-size: 1.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .pain-shock-title {
+                font-size: 2.2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .authority-title {
+                font-size: 1.8rem;
+            }
+            
+            .authority-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .authority-left {
+                position: static;
+                text-align: center;
+            }
+            
+            .authority-stats {
+                justify-content: center;
+            }
+            
+            .expertise-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .team-intro {
+                text-align: center;
+            }
+            
+            .case-left,
+            .case-right,
+            .case-wide {
+                grid-template-columns: 1fr !important;
+                gap: 2rem;
+            }
+            
+            .case-right .case-content {
+                order: 1;
+            }
+            
+            .case-right .case-image {
+                order: 2;
+            }
+            
+            .case-story h3 {
+                font-size: 1.5rem;
+            }
+            
+            .cases-top-row {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .case-block-3 {
+                grid-template-columns: 1fr !important;
+                gap: 2rem;
+            }
+            
+            .timeline-container {
+                max-width: 100%;
+                padding: 0 1rem;
+            }
+            
+            .month-card {
+                padding: 2rem 1.5rem;
+                margin: 0 1rem;
+            }
+            
+            .month-title {
+                font-size: 1.4rem;
+            }
+            
+            .month-description {
+                font-size: 1rem;
+                padding: 0;
+            }
+            
+            .week-list {
+                padding: 1rem;
+            }
+            
+            .week-item {
+                font-size: 0.9rem;
+                padding: 0.6rem;
+            }
+            
+            .deliverables {
+                padding: 1rem;
+            }
+            
+            .roi-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .final-cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .complete-value-section {
+                padding: 3rem 1rem;
+            }
+            
+            .complete-value-section .container {
+                padding: 0 1rem;
+            }
+            
+            .value-categories {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .value-category {
+                padding: 1.5rem;
+            }
+            
+            .category-header {
+                flex-direction: row;
+                text-align: left;
+                gap: 0.8rem;
+            }
+            
+            .category-title {
+                font-size: 1.2rem;
+            }
+            
+            .value-item {
+                padding: 0.8rem;
+            }
+            
+            .item-text {
+                font-size: 0.8rem;
+            }
+            
+            .value-main-title {
+                font-size: 1.8rem;
+            }
+            
+            /* ROI 分析區塊手機版 */
+            .roi-highlights {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .benefits-breakdown {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .roi-metrics {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+            
+            .metric-number {
+                font-size: 1.5rem;
+            }
+            
+            .analysis-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .analysis-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .comparison-table {
+                overflow-x: auto;
+            }
+            
+            .table-header,
+            .table-row {
+                grid-template-columns: repeat(7, minmax(120px, 1fr));
+                font-size: 0.8rem;
+            }
+            
+            .scale-cell {
+                flex-direction: column;
+                gap: 0.3rem;
+                text-align: center;
+            }
+            
+            .enterprise-comparison {
+                padding: 1.5rem;
+            }
+            
+            /* 投資方案手機版 */
+            .pricing-plans {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .pricing-plan {
+                padding: 2rem;
+            }
+            
+            .plan-price {
+                font-size: 1.8rem;
+            }
+            
+            /* FAQ 常見問題手機版 */
+            .faq-container {
+                max-width: 100%;
+                padding: 2rem;
+            }
+            
+            .faq-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .faq-image {
+                order: -1;
+                padding-top: 0;
+            }
+            
+            .faq-questions {
+                order: 1;
+            }
+            
+            .faq-question {
+                padding: 1.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .faq-question h3 {
+                font-size: 1.1rem;
+                padding-right: 0;
+            }
+            
+            .faq-toggle {
+                align-self: flex-end;
+                margin-top: -2rem;
+            }
+            
+            .faq-item.active .faq-answer {
+                padding: 0 1.5rem 1.5rem 1.5rem;
+            }
+            
+            /* 客戶推薦區塊手機版 */
+            .testimonials-slider {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .slider-btn {
+                display: none;
+            }
+            
+            .testimonial-slide {
+                padding: 2rem;
+                min-height: 200px;
+            }
+            
+            .testimonial-text p {
+                font-size: 1.1rem;
+            }
+            
+            .testimonial-badge {
+                font-size: 1rem;
+                padding: 0.6rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 開場區塊 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="main-line">自動化晚一天，就多浪費一天人力</span>
+                <span class="sub-line">讓我們把你的團隊生產力，打造成行業標竿 🏆</span>
+            </h1>
+            <p class="hero-subtitle">90天內，培養內部獨立架構自動化的團隊</p>
+            
+            <div class="cta-section">
+                <p class="cta-text">免費 30 分鐘線上諮詢，企業現況快速診斷，客製化方案建議</p>
+                <div class="cta-buttons">
+                    <a href="https://make.fan/contact/" target="_blank" rel="noopener noreferrer" class="cta-button">💬 留言給我們</a>
+                    <a href="https://lin.ee/SWLPG1T" target="_blank" rel="noopener noreferrer" class="cta-button">💬 LINE官方諮詢</a>
+                </div>
+                <p class="cta-note">一次對話，可能成為你企業轉型的轉折點。別讓機會在日常忙碌中悄悄溜走，現在就啟動改變。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 痛點區塊 -->
+    <section class="pain-section">
+        <div class="container">
+            <div class="pain-header">
+                <h2 class="pain-main-title">自動化是企業效率升級、數位轉型的必經之路</h2>
+                <h3 class="pain-shock-title">但超過 90% 的企業，自動化都會失敗！</h3>
+            </div>
+            
+            <div class="pain-reasons">
+                <div class="pain-reason">
+                    <div class="reason-number">失敗原因 1 ＊註</div>
+                    <h4 class="reason-title">零散學習，無法系統化</h4>
+                    <p class="reason-description">
+                        今天學一點 AI，明天試一點自動化，東一塊西一塊始終無法形成完整體系。個人會用了，組織流程沒改變。
+                    </p>
+                </div>
+                
+                <div class="pain-reason">
+                    <div class="reason-number">失敗原因 2</div>
+                    <h4 class="reason-title">缺乏專業陪跑指導</h4>
+                    <p class="reason-description">
+                        誤以為買工具就能轉型！缺乏架構思維和實戰經驗，錯失建立自動化基礎的關鍵時期。
+                    </p>
+                </div>
+                
+                <div class="pain-reason">
+                    <div class="reason-number">失敗原因 3</div>
+                    <h4 class="reason-title">關鍵人員離職歸零</h4>
+                    <p class="reason-description">
+                        缺乏知識移轉機制，全靠個別員工摸索。一旦關鍵人員離職，所有投資瞬間打回原形。
+                    </p>
+                </div>
+            </div>
+            
+            <p class="pain-note">*註：失敗指投入資源後仍無法建立可持續的自動化流程</p>
+            
+            <div class="solution-intro">
+                真正的數位轉型，需要的是一鼓作氣的決心與完整的戰略布局。
+            </div>
+        </div>
+    </section>
+
+    <!-- 成功關鍵區塊 -->
+    <section class="success-keys-section">
+        <div class="container">
+            <h2 class="success-title">企業成功自動化轉型的關鍵</h2>
+            
+            <div class="key-points">
+                <div class="key-point">
+                    <h3>✅ 系統化規劃，快速落地</h3>
+                    <p>數位轉型不能靠靈感或零碎嘗試，必須用完整架構去規劃、執行，才能真正適用於公司體系。</p>
+                </div>
+                
+                <div class="key-point">
+                    <h3>🎯 工具＋策略，雙引擎轉型</h3>
+                    <p>工具你上網也能學，但落地需要經驗與系統方法。需要一個能陪你直接把流程自動化上線，確保能馬上產生成果的教練。</p>
+                </div>
+                
+                <div class="key-point">
+                    <h3>⚡ 搶占先機，快人一步贏市場</h3>
+                    <p>自動化不是未來趨勢，而是現在的生存條件。越早導入，越早節省成本、提升產能、搶佔市場。</p>
+                </div>
+            </div>
+            
+            <div class="solution-highlight-final">
+                <strong>在導入自動化的同時，我們也幫企業建立完整知識庫，強化 AI Agent 應用，讓數位轉型一次到位。</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成功案例區塊 -->
+    <section class="cases-section">
+        <div class="container">
+            <div class="cases-header">
+                <h2 class="cases-main-title">成功案例</h2>
+                <p class="cases-subtitle">跨行業自動化解決方案，真實客戶見證成果</p>
+            </div>
+            
+            <div class="case-stories">
+                <!-- 上排：案例1和案例2並排 -->
+                <div class="cases-top-row">
+                    <!-- 案例1：媒體行銷 -->
+                    <div class="case-block case-block-1">
+                        <div class="case-category">媒體行銷</div>
+                        <h3>潮流媒體熱議話題自動產文</h3>
+                        <p>每天自動抓取 Google 熱門議題，生成文章上架官網，並同步社群排程</p>
+                        <div class="case-achievement">
+                            <span class="achievement-icon">✨</span>
+                            <span class="achievement-text">成效：每日產出 10+ 篇內容，流量提升 2.5 倍，編輯時間降到15%</span>
+                        </div>
+                        <div class="case-image">
+                            <img src="https://ap11.ragic.com/sims/file.jsp?a=joycehuang&f=Lp8zuE70Px%40%E6%BD%AE%E6%B5%81%E5%AA%92%E9%AB%94%E8%87%AA%E5%8B%95%E5%8C%96.png" alt="潮流媒體自動化系統">
+                        </div>
+                    </div>
+                    
+                    <!-- 案例2：工程管理 -->
+                    <div class="case-block case-block-2">
+                        <div class="case-category">工程管理</div>
+                        <h3>消防安檢與防災案件管理自動化</h3>
+                        <p>整合 LINE OA 與雲端流程自動化平台，自動建立專案進度表與資料夾，現場打卡、上傳照片即時歸檔並記錄 GPS</p>
+                        <div class="case-achievement">
+                            <span class="achievement-icon">⚡</span>
+                            <span class="achievement-text">成效：進度透明度提升 100%，溝通延誤降至 0，資料整理時間減少 90%</span>
+                        </div>
+                        <div class="case-image">
+                            <img src="https://ap11.ragic.com/sims/file.jsp?a=joycehuang&f=Ko77z8Yb15%40%E6%B6%88%E9%98%B2%E5%B7%A5%E7%A8%8B%E7%B3%BB%E7%B5%B1%E8%87%AA%E5%8B%95%E5%8C%96.png" alt="消防工程系統自動化">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 下排：案例3長方形 -->
+                <div class="cases-bottom-row">
+                    <div class="case-block case-block-3">
+                        <div class="case-content-3">
+                            <div class="case-category">人力管理</div>
+                            <h3>家事人員排班自動化</h3>
+                            <p>整合 LINE OA，連結家事人員、派工員與管理端，支援即時排班、出勤登記與自動報表</p>
+                            <div class="case-achievement">
+                                <span class="achievement-icon">🎯</span>
+                                <span class="achievement-text">成效：排班效率提升 65%，派工確認時間縮短 50%，出勤紀錄即時完成</span>
+                            </div>
+                        </div>
+                        <div class="case-image">
+                            <img src="https://ap11.ragic.com/sims/file.jsp?a=joycehuang&f=RoU7CRV3g7%40%E5%AE%B6%E4%BA%8B%E4%BA%BA%E5%93%A1%E6%8E%92%E7%8F%AD%E8%87%AA%E5%8B%95%E5%8C%96.png" alt="家事人員排班自動化系統">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 企業 AI 自動化導入陪跑計畫區塊 -->
+    <section class="coaching-program-section">
+        <div class="container">
+            <div class="program-header">
+                <h2 class="program-main-title">企業 AI 自動化導入陪跑計畫</h2>
+                <p class="program-subtitle">90天完整轉型，從零建立到獨立運作</p>
+            </div>
+            
+            <!-- 時間軸流程圖 -->
+            <div class="timeline-container">
+                <!-- 第一個月 -->
+                <div class="timeline-month">
+                    <div class="month-card month-1">
+                        <div class="month-icon">
+                            <span class="icon-content">🚀</span>
+                        </div>
+                        <div class="month-title">第一個月：教育與啟動期</div>
+                        <div class="month-subtitle">(Learn & Launch)</div>
+                        <div class="month-description">
+                            建立 AI 認知基礎，完成現況盤點，建置第一個自動化流程。確保團隊有第一個成功案例，建立轉型信心。
+                        </div>
+                        
+                        <div class="details-section">
+                            <div class="details-header">
+                                <span class="details-icon">📋</span>
+                                <span class="details-title">詳細內容：</span>
+                            </div>
+                            <div class="week-list">
+                                <div class="week-item">
+                                    <strong>Week 1｜觀念與工具入門</strong> 建立 AI 與自動化全局概念，完成 Make 環境配置與核心模組操作。
+                                </div>
+                                <div class="week-item">
+                                    <strong>Week 2｜多筆資料處理、串接 / Chrome 插件應用</strong> 學會多筆資料處理、API 串接及插件應用，強化跨平台整合能力。
+                                </div>
+                                <div class="week-item">
+                                    <strong>Week 3｜Make AI Agent</strong> 建構 AI Agent，實作自動化任務分配與內容生成。
+                                </div>
+                                <div class="week-item">
+                                    <strong>Week 4｜小型專案實作</strong> 從需求到上線，獨立完成 1 條可運行的自動化流程。
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="deliverables">
+                            <div class="deliverables-title">🎯 月底交付成果</div>
+                            <div class="deliverables-content">
+                                理解 AI 與自動化核心概念、熟練 Make 基礎與 API 串接、完成 1 條具智能化的自動化流程、建立企業專屬自動化藍圖
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 連接線 -->
+                    <div class="timeline-connector">
+                        <div class="connector-line"></div>
+                        <div class="connector-circle"></div>
+                    </div>
+                </div>
+
+                <!-- 第二個月 -->
+                <div class="timeline-month">
+                    <div class="month-card month-2">
+                        <div class="month-icon">
+                            <span class="icon-content">⚡</span>
+                        </div>
+                        <div class="month-title">第二個月：深化與擴展期</div>
+                        <div class="month-subtitle">(Scale & Optimize)</div>
+                        <div class="month-description">
+                            發掘企業核心流程，推動 1–2 條流程上線，並建立監控與異常處理機制，持續提升自動化效能。
+                        </div>
+                        
+                        <div class="details-section">
+                            <div class="details-header">
+                                <span class="details-icon">⚡</span>
+                                <span class="details-title">詳細內容：</span>
+                            </div>
+                            <div class="week-list">
+                                <div class="week-item">
+                                    <strong>Week 1｜Make 進階函數教學 + 流程盤點與優先級分析</strong> 深入資料處理函數應用，協助團隊盤點並排序自動化流程優先級。
+                                </div>
+                                <div class="week-item">
+                                    <strong>Week 2｜需求細化與流程設計</strong> 將選定流程拆解為具體需求，完成流程圖與模組規劃。
+                                </div>
+                                <div class="week-item">
+                                    <strong>Week 3｜第一條流程製作與測試</strong> 開發首條流程，進行測試與問題修正，確保穩定運行。
+                                </div>
+                                <div class="week-item">
+                                    <strong>Week 4｜第二條流程啟動與優化 + 監控與異常處理建立</strong> 啟動第二條流程製作，建立監控系統與異常回報機制，保障系統穩定。
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="deliverables">
+                            <div class="deliverables-title">📌 月底交付成果：</div>
+                            <div class="deliverables-content">
+                                掌握進階資料處理技巧、完成 1 條流程穩定上線、第二條流程進入開發階段、建立流程監控與異常處理體系
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 連接線 -->
+                    <div class="timeline-connector">
+                        <div class="connector-line"></div>
+                        <div class="connector-circle"></div>
+                    </div>
+                </div>
+
+                <!-- 第三個月 -->
+                <div class="timeline-month">
+                    <div class="month-card month-3">
+                        <div class="month-icon">
+                            <span class="icon-content">🏆</span>
+                        </div>
+                        <div class="month-title">第三個月：精進與永續期</div>
+                        <div class="month-subtitle">(Master & Sustain)</div>
+                        <div class="month-description">
+                            擴展多場景自動化，培育團隊自主運維能力，完成至少 5 條流程上線並制定持續優化計畫。
+                        </div>
+                        
+                        <div class="details-section">
+                            <div class="details-header">
+                                <span class="details-icon">🏆</span>
+                                <span class="details-title">詳細內容：</span>
+                            </div>
+                            <div class="week-list">
+                                <div class="week-item">
+                                    <strong>Week 1｜多平台整合與權限管理設計</strong> 聚焦跨平台資料串接與嚴謹權限控管，確保流程安全高效。
+                                </div>
+                                <div class="week-item">
+                                    <strong>Week 2｜流程擴展與複雜邏輯設計</strong> 深化流程設計，結合多場景與複雜條件，提升自動化智能度。
+                                </div>
+                                <div class="week-item">
+                                    <strong>Week 3｜團隊技能強化與認證輔導</strong> 輔導團隊考取 Make.com 證照，建立技術自主運維能力。
+                                </div>
+                                <div class="week-item">
+                                    <strong>Week 4｜專案總結與持續優化規劃</strong> 完成專案收尾，整理成果並規劃未來持續優化路線。
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="deliverables final-deliverables">
+                            <div class="deliverables-title">📌 月底交付成果：</div>
+                            <div class="deliverables-content">
+                                上線3-5 條多場景自動化流程、建立多平台整合與權限控管體系、團隊通過 Make.com 專業認證、制定長期持續優化與維運計畫
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 完整價值區塊 -->
+    <section class="complete-value-section">
+        <div class="container">
+            <div class="value-section">
+                <h2 class="value-main-title">您將獲得的完整價值</h2>
+                
+                <div class="value-categories">
+                    <!-- 核心交付成果 -->
+                    <div class="value-category category-core">
+                        <div class="category-header">
+                            <span class="category-icon">🎯</span>
+                            <h3 class="category-title">核心交付成果</h3>
+                        </div>
+                        <div class="value-items">
+                            <div class="value-item">
+                                <span class="item-check">✅</span>
+                                <span class="item-text">理解 AI 與自動化核心概念，熟練 Make 平台基礎</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">✅</span>
+                                <span class="item-text">完成 3-5 條具實際商業價值的自動化流程</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">✅</span>
+                                <span class="item-text">企業專屬自動化藍圖與優先實施清單</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">✅</span>
+                                <span class="item-text">團隊內部至少 1–2 位可獨立製作與維護流程的內部專家</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">✅</span>
+                                <span class="item-text">需求盤點、流程設計、測試、上線全流程實作經驗</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">✅</span>
+                                <span class="item-text">流程監控、異常處理與權限管理機制建置完成</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">✅</span>
+                                <span class="item-text">取得 Make 官方認證（或具備等同能力）</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">✅</span>
+                                <span class="item-text">完整 3 個月成果檔案：流程場景、知識庫與提示詞等</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 應用資源與工具 -->
+                    <div class="value-category category-tools">
+                        <div class="category-header">
+                            <span class="category-icon">🛠️</span>
+                            <h3 class="category-title">應用資源與工具</h3>
+                        </div>
+                        <div class="value-items">
+                            <div class="value-item">
+                                <span class="item-check">🔧</span>
+                                <span class="item-text">Make自動化平台首月升級Pro版並享有10,000個免費Operations</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">🔧</span>
+                                <span class="item-text">3個月內專業自動化套件免費使用</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">🔧</span>
+                                <span class="item-text">Chrome 擴充插件與專屬自動化場景免費開放</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">🔧</span>
+                                <span class="item-text">專業自動化樣板庫存取</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">🔧</span>
+                                <span class="item-text">企業知識庫建立與管理</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">🔧</span>
+                                <span class="item-text">AI Agent 應用強化訓練</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">🔧</span>
+                                <span class="item-text">建立技術支援群組</span>
+                            </div>                            <div class="value-item">
+                                <span class="item-check">🔧</span>
+                                <span class="item-text">熱門 API 連接設定支援文件 (LINE OA、OpenAI、Google Workspace等)</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">🔧</span>
+                                <span class="item-text">多個自動化流程串接學習影片</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 持續成長保障 -->
+                    <div class="value-category category-growth">
+                        <div class="category-header">
+                            <span class="category-icon">📈</span>
+                            <h3 class="category-title">持續成長保障與專屬優惠</h3>
+                        </div>
+                        <div class="value-items">
+                            <div class="value-item">
+                                <span class="item-check">🚀</span>
+                                <span class="item-text">持續技術支援與顧問諮詢享優待價</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">🚀</span>
+                                <span class="item-text">進階課程與工作坊專屬折扣</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">🚀</span>
+                                <span class="item-text">新套件搶先試用權</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="item-check">🚀</span>
+                                <span class="item-text">技術夥伴推薦與商機媒合</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 投資方案選擇區塊 -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="pricing-header">
+                <h2 class="pricing-main-title">投資方案選擇</h2>
+                <p class="pricing-subtitle">選擇最適合您企業規模與需求的導入方案</p>
+            </div>
+
+            <div class="pricing-plans">
+                <!-- 基礎陪跑方案 -->
+                <div class="pricing-plan basic-plan">
+                    <div class="plan-icon">🎯</div>
+                    <h3 class="plan-title">基礎陪跑方案</h3>
+                    <div class="plan-focus">以 AI + 流程自動化為主</div>
+                    <div class="plan-price">NT$ 240,000</div>
+                    <div class="plan-features">
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            48小時專業陪跑指導
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            基礎套件工具授權
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            AI 應用基礎訓練
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            專屬流程需求訪談
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            跨平台流程設計與優化指導
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            技術支援群組
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            3個自動化流程上線
+                        </div>
+                    </div>
+                    <div class="plan-cta">
+                        <a href="#" class="cta-btn basic-btn">選擇方案</a>
+                    </div>
+                </div>
+
+                <!-- 完整轉型方案 -->
+                <div class="pricing-plan premium-plan recommended">
+                    <div class="recommended-badge">最受歡迎方案</div>
+                    <div class="plan-icon">🚀</div>
+                    <h3 class="plan-title">完整轉型方案</h3>
+                    <div class="plan-focus">基礎方案 + AI Agent 及知識庫建立</div>
+                    <div class="plan-price">NT$ 360,000</div>
+                    <div class="plan-features">
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            基礎方案所有內容
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            專屬套件免費使用
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            Chrome 擴充插件與自動化場景免費使用
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            場景樣板免費使用
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            企業專屬知識庫建立與管理訓練
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            AI Agent 深度應用強化
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            智能助手客製化開發
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            內部自動化專員培訓認證
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            5個流程自動化上線
+                        </div>
+                    </div>
+                    <div class="plan-cta">
+                        <a href="#" class="cta-btn premium-btn">立即選擇</a>
+                    </div>
+                </div>
+
+                <!-- 企業客製方案 -->
+                <div class="pricing-plan enterprise-plan">
+                    <div class="plan-icon">🏢</div>
+                    <h3 class="plan-title">企業客製方案</h3>
+                    <div class="plan-focus">適合大型企業多部門整合需求</div>
+                    <div class="plan-price">客製報價</div>
+                    <div class="plan-features">
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            完整方案所有內容
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            跨部門自動化流程規劃藍圖
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            多部門整合規劃與權限管理設計
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            客製數量的自動化流程
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            技術優先支援服務
+                        </div>
+                    </div>
+                    <div class="plan-cta">
+                        <a href="#" class="cta-btn enterprise-btn">聯絡諮詢</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 投資回報分析區塊 -->
+    <section class="roi-analysis-section">
+        <div class="container">
+            <div class="roi-header">
+                <h2 class="roi-main-title">💰 投資回報分析（ROI Analysis）</h2>
+                <p class="roi-subtitle">以小型企業為例</p>
+            </div>
+
+            <!-- 顯目收益展示 -->
+            <div class="roi-highlights">
+                <div class="roi-highlight-card investment-card">
+                    <div class="card-icon">💰</div>
+                    <div class="card-title">投資成本</div>
+                    <div class="card-amount">NT$ 360,000</div>
+                    <div class="card-subtitle">一次性投資<br>90天完整陪跑</div>
+                </div>
+
+                <div class="roi-highlight-card benefits-card">
+                    <div class="card-title">預期年度效益</div>
+                    <div class="benefits-breakdown">
+                        <div class="benefit-item">
+                            <span class="benefit-number">NT$ 1,824,000</span>
+                            <span class="benefit-label">人力成本節省</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-number">NT$ 300,000</span>
+                            <span class="benefit-label">效率提升價值</span>
+                        </div>
+                    </div>
+                    <div class="total-benefits">
+                        <span class="total-number">NT$ 2,124,000</span>
+                        <span class="total-label">總年度效益</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROI 關鍵指標 -->
+            <div class="roi-metrics">
+                <div class="metric-card">
+                    <div class="metric-number roi-percentage">590%</div>
+                    <div class="metric-label">年度投資回報率</div>
+                    <div class="metric-detail">(NT$2,124,000 ÷ NT$360,000)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">2個月</div>
+                    <div class="metric-label">投資回收期</div>
+                    <div class="metric-detail">第4個月開始獲利</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">NT$ 181萬</div>
+                    <div class="metric-label">第一年淨利潤</div>
+                    <div class="metric-detail">(效益-投資成本)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">持續增長</div>
+                    <div class="metric-label">第二年起</div>
+                    <div class="metric-detail">100% 都是淨利潤</div>
+                </div>
+            </div>
+
+            <!-- 詳細效益分析 -->
+            <div class="detailed-analysis">
+                <h3 class="analysis-title">詳細效益分析</h3>
+                <div class="analysis-grid">
+                    <div class="analysis-item">
+                        <div class="analysis-icon">💡</div>
+                        <div class="analysis-content">
+                            <h4>人力成本節省</h4>
+                            <p class="analysis-desc">自動化流程取代例行手動作業 → 減少約 37.5% 工時</p>
+                            <div class="calculation">
+                                <div class="calc-line">年度可節省工時：15 人 × 3 小時/天 × 22 天/月 × 12 月 ≈ <strong>11,880 小時</strong></div>
+                                <div class="calc-result">對應金額：約 <strong>NT$ 1,824,000</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-item">
+                        <div class="analysis-icon">🎯</div>
+                        <div class="analysis-content">
+                            <h4>錯誤與重工節省</h4>
+                            <p class="analysis-desc">資料錯誤與溝通延誤減少</p>
+                            <div class="calc-result">年度預估節省成本：約 <strong>NT$ 100,000</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-item">
+                        <div class="analysis-icon">⚡</div>
+                        <div class="analysis-content">
+                            <h4>流程效率帶來潛在收益</h4>
+                            <p class="analysis-desc">任務完成時間縮短 → 可同時處理更多業務</p>
+                            <div class="calc-result">潛在額外收益：約 <strong>NT$ 200,000</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-item">
+                        <div class="analysis-icon">📊</div>
+                        <div class="analysis-content">
+                            <h4>決策與分析價值</h4>
+                            <p class="analysis-desc">資料自動化收集與報表生成 → 支援快速決策</p>
+                            <div class="calc-result">降低人工整理報表成本 & 決策延誤風險：約 <strong>NT$ 50,000</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 不同規模企業比較表 -->
+            <div class="enterprise-comparison">
+                <h3 class="comparison-title">💼 不同規模企業投資回報模擬表</h3>
+                <div class="comparison-table">
+                    <div class="table-header">
+                        <div class="header-cell">企業規模</div>
+                        <div class="header-cell">員工總數</div>
+                        <div class="header-cell">年度節省人力成本</div>
+                        <div class="header-cell">錯誤與重工節省</div>
+                        <div class="header-cell">流程效率帶來潛在收益</div>
+                        <div class="header-cell">年度總回報</div>
+                        <div class="header-cell">投資回收期</div>
+                    </div>
+
+                    <div class="table-row small-enterprise">
+                        <div class="table-cell scale-cell">
+                            <div class="scale-icon">🏢</div>
+                            <div class="scale-name">小型企業</div>
+                        </div>
+                        <div class="table-cell">30 人以下</div>
+                        <div class="table-cell amount">NT$ 1,824,000 以上</div>
+                        <div class="table-cell amount">NT$ 100,000 以上</div>
+                        <div class="table-cell amount">NT$ 200,000 以上</div>
+                        <div class="table-cell table-total-amount">NT$ 2,124,000 以上</div>
+                        <div class="table-cell period">約 2-3 個月</div>
+                    </div>
+
+                    <div class="table-row medium-enterprise">
+                        <div class="table-cell scale-cell">
+                            <div class="scale-icon">🏬</div>
+                            <div class="scale-name">中型企業</div>
+                        </div>
+                        <div class="table-cell">30-200 人</div>
+                        <div class="table-cell amount">NT$ 6,748,800 以上</div>
+                        <div class="table-cell amount">NT$ 300,000 以上</div>
+                        <div class="table-cell amount">NT$ 500,000 以上</div>
+                        <div class="table-cell table-total-amount">NT$ 7,548,800 以上</div>
+                        <div class="table-cell period">約 0.5 個月</div>
+                    </div>
+
+                    <div class="table-row large-enterprise">
+                        <div class="table-cell scale-cell">
+                            <div class="scale-icon">🏭</div>
+                            <div class="scale-name">大型企業</div>
+                        </div>
+                        <div class="table-cell">200 人以上</div>
+                        <div class="table-cell amount">NT$ 22,800,000 以上</div>
+                        <div class="table-cell amount">NT$ 800,000 以上</div>
+                        <div class="table-cell amount">NT$ 1,500,000 以上</div>
+                        <div class="table-cell table-total-amount">NT$ 25,100,000 以上</div>
+                        <div class="table-cell period">約 0.1 個月</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ 常見問題區塊 -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-header">
+                <h2 class="faq-main-title">常見問題（FAQ）</h2>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-content">
+                    <div class="faq-questions">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>Q1：90 天的陪跑計畫結束後，我們還能繼續使用系統嗎？</h3>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>可以。本計畫完成後，您已建立的自動化流程、知識庫與 AI Agent 均屬於貴公司資產，可持續運行。我們也提供後續維護、優化與顧問諮詢的優惠方案。</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>Q2：我們團隊沒有技術背景，能跟得上嗎？</h3>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>可以。我們的陪跑模式會以「業務需求 → 流程設計 → 實作示範 → 教你複製」的方式進行，讓非技術人員也能快速掌握。</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>Q3：我們的行業特殊，流程能客製嗎？</h3>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>可以。我們陪跑過程中會進行需求訪談與流程盤點，針對您的產業與部門特性設計場景，確保自動化方案能貼合實際業務需求。</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>Q4：導入後多久能看到成效？</h3>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>多數企業在<strong>第二個月</strong>就能完成首個流程上線，並立即節省人工作業時間。完整的 90 天計畫中，我們會持續擴充流程，累積更多節省與產能提升效果。</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>Q5：如果流程中途發生錯誤，誰來處理？</h3>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>在 90 天內，我們會提供技術支援群組，確保業務不中斷。同時也會教您團隊如何快速排查問題。</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>Q6：這和一般 AI 培訓課程有什麼不同？</h3>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>一般課程只教工具使用，實際落地率低。我們採用「專案實作 + 陪跑」模式，直接在您的公司流程中落地，讓您在結束前就有能運行的成果。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-image">
+                        <img src="https://ap11.ragic.com/sims/file.jsp?a=joycehuang&f=A1ka51WD5j%40FAQ.png" alt="FAQ圖示" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客戶推薦區塊 -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="testimonials-header">
+                <h2 class="testimonials-main-title">他們的轉型，也是你的未來</h2>
+            </div>
+            
+            <div class="testimonials-slider">
+                <button class="slider-btn prev-btn" onclick="previousTestimonial()">
+                    <span>‹</span>
+                </button>
+                
+                <div class="testimonials-container">
+                    <div class="testimonial-slide active">
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>「以前光是選題、撰文、修圖、發文，10幾個編輯每天忙翻天。導入自動化後，我們編輯文章與經營社群的時間只剩原本的 1/8，卻讓流量翻倍成長，團隊終於可以把精力放在內容創意上。」</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <strong>潮流媒體總編輯</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-slide">
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>「過去現場工程師要花很多時間整理施工照片與核銷單據，還常出錯。現在只要隨手拍照即時上傳，資料自動分類、命名、歸檔，效率高太多，也更精準。」</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <strong>工程公司營運長</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-slide">
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>「之前派人去上過很多 AI 課程，但效果有限，還容易變成個人技能，沒法轉化成公司資產。這次透過專人陪跑導入自動化到公司流程，才真正看到營運時間節省與效能提升。」</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <strong>行銷公司營運經理</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-slide">
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>「以前光是處理訂單、回覆客戶、生成報表，就佔據了大半天。現在自動化幫我們處理 50% 的例行作業，客戶滿意度也明顯提升。」</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <strong>電腦零售商創辦人</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="slider-btn next-btn" onclick="nextTestimonial()">
+                    <span>›</span>
+                </button>
+            </div>
+            
+            <div class="slider-dots">
+                <span class="dot active" onclick="currentTestimonial(1)"></span>
+                <span class="dot" onclick="currentTestimonial(2)"></span>
+                <span class="dot" onclick="currentTestimonial(3)"></span>
+                <span class="dot" onclick="currentTestimonial(4)"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 權威建立區塊 -->
+    <section class="authority-section">
+        <div class="container">
+            <div class="authority-layout">
+                <div class="authority-left">
+                    <h2 class="authority-title">Smart4A<br>Make.com<br>官方技術合作夥伴</h2>
+                    <p class="authority-subtitle">專注於自動化解決方案的核心技術團隊</p>
+                    <div class="authority-stats">
+                        <div class="stats-row">
+                            <div class="mini-stat">
+                                <span class="mini-number">20<span class="mini-number-unit">人</span></span>
+                                <span class="mini-label">專業團隊</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="mini-number">7<span class="mini-number-unit">人</span></span>
+                                <span class="mini-label">最高級認證</span>
+                            </div>
+                        </div>
+                        <div class="partner-logo">
+                            <img src="https://ap11.ragic.com/sims/file.jsp?a=joycehuang&f=dKKR6qJ4bV%40partner-certified.webp" alt="Make.com官方合作夥伴認證" />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="authority-right">
+                    <div class="team-intro">
+                        <p>專注於自動化解決方案的核心技術團隊，現有約 <strong>20 名專業人員</strong>。作為 make.com iPaaS 的官方技術合作夥伴，我們專門將亞洲地區的本地 API 以圖形使用者介面方式整合至 iPaaS 平台。</p>
+                        <p>團隊成員中有 <strong>三分之一已通過 make Certificates Challenge Level 5 最高級別專業認證</strong>，展現我們在技術領域的專業水準。</p>
+                    </div>
+                    
+                    <div class="expertise-grid">
+                        <div class="expertise-item">
+                            <span class="expertise-label">Workflow</span>
+                            <span class="expertise-desc">設計與實現企業流程自動化解決方案，優化工作流程</span>
+                        </div>
+                        <div class="expertise-item">
+                            <span class="expertise-label">Chatflow</span>
+                            <span class="expertise-desc">打造智能對話系統與客服自動化，提升用戶體驗</span>
+                        </div>
+                        <div class="expertise-item">
+                            <span class="expertise-label">Knowledge base</span>
+                            <span class="expertise-desc">建立與維護企業智能知識管理系統，集中資訊資源</span>
+                        </div>
+                        <div class="expertise-item">
+                            <span class="expertise-label">Agent</span>
+                            <span class="expertise-desc">設計與實現自主運作的智能代理系統，執行複雜任務</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最終行動呼籲 -->
+    <section class="final-cta-section">
+        <div class="container">
+            <p class="final-cta-text">免費 30 分鐘線上諮詢，企業現況快速診斷，客製化方案建議</p>
+            <div class="final-cta-buttons">
+                <a href="https://make.fan/contact/" target="_blank" rel="noopener noreferrer" class="final-cta-button">💬 留言給我們</a>
+                <a href="https://lin.ee/SWLPG1T" target="_blank" rel="noopener noreferrer" class="final-cta-button">💬 LINE官方諮詢</a>
+            </div>
+            <p class="final-cta-note">一次對話，可能成為你企業轉型的轉折點。別讓機會在日常忙碌中悄悄溜走，現在就啟動改變。</p>
+        </div>
+    </section>
+</body>
+<script>
+// FAQ 展開收合功能
+document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', function() {
+            // 關閉其他已展開的項目
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            
+            // 切換當前項目
+            item.classList.toggle('active');
+        });
+    });
+});
+
+// 客戶推薦滑塊功能
+let currentSlide = 0;
+const slides = document.querySelectorAll('.testimonial-slide');
+const dots = document.querySelectorAll('.dot');
+
+function showSlide(index) {
+    // 隱藏所有幻燈片
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+    
+    // 顯示指定幻燈片
+    if (slides[index]) {
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+    }
+    
+    currentSlide = index;
+}
+
+function nextTestimonial() {
+    const nextIndex = (currentSlide + 1) % slides.length;
+    showSlide(nextIndex);
+}
+
+function previousTestimonial() {
+    const prevIndex = currentSlide === 0 ? slides.length - 1 : currentSlide - 1;
+    showSlide(prevIndex);
+}
+
+function currentTestimonial(index) {
+    showSlide(index - 1);
+}
+
+// 自動播放（可選）
+setInterval(nextTestimonial, 8000);
+</script>
+</html>
+                        <div class="feature-item">
+                            <span class="feature-check">
